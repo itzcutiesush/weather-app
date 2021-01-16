@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-6 offset-sm-3" *ngIf="!errorObject">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="weatherUnit" id="metricUnit" (change)="handleUnitChange('metric', 0)" checked>
+                <label class="form-check-label" for="metricUnit">
+                Metric
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="weatherUnit" id="imperialUnit" (change)="handleUnitChange('imperial', 1)">
+                <label class="form-check-label" for="imperialUnit">
+                Imperial
+                </label>
+            </div>
+        </div>
+        <div class="weather-card col-12 col-sm-6 col-md-4 offset-sm-3 offset-md-4 mt-3 shadow-sm p-3 mb-5 rounded" *ngIf="weatherData$ | async; else noDataTemplate; let cityWeather">
+            <div class="row align-items-center ml-1">
+                <h5 class="text-secondary">{{cityWeather['name'] || 'NA'}}</h5>
+            </div>
+            <div class="row align-items-center" title="Temperature">
+                <div class="col text-center">
+                    <img class="weather-img" [attr.src]="'http://openweathermap.org/img/wn/'+cityWeather['weather'][0]['icon']+'@2x.png'" />
+                </div>
+                <div class="col">{{cityWeather['main']['temp'] || 'NA'}} <span aria-label="tempUnit">{{selectedUnit['temp']}}</span></div>
+            </div>
+            <div class="row align-items-center" title="Wind">
+                <div class="col text-center">
+                    <img class="weather-img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaGVpZ2h0PSIzMnB4IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMycHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjx0aXRsZS8+PGRlc2MvPjxkZWZzLz48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGlkPSJXaW5keSIgc3Ryb2tlPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMSI+PGcgc3Ryb2tlPSIjOTc5Nzk3IiBzdHJva2Utd2lkdGg9IjIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMuMDAwMDAwLCAzLjAwMDAwMCkiPjxnIGlkPSJHcm91cC0yIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyLjAwMDAwMCwgMC4wMDAwMDApIj48ZyBpZD0iR3JvdXAiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuMDAwMDAwLCAwLjAwMDAwMCkiPjxwYXRoIGQ9Ik01LDEwIEM3Ljc2MTQyMzc1LDEwIDEwLDcuNzYxNDIzNzUgMTAsNSBDMTAsMi4yMzg1NzYyNSA3Ljc2MTQyMzc1LDAgNSwwIEMyLjIzODU3NjI1LDAgMCwyLjIzODU3NjI1IDAsNSIgaWQ9Ik92YWwtNiIvPjwvZz48cGF0aCBkPSJNMCwxMCBMMTAsMTAiIGlkPSJQYXRoLTkiLz48L2c+PGcgaWQ9Ikdyb3VwLTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMuMDAwMDAwLCAxNy4wMDAwMDApIj48cGF0aCBkPSJNMCwxIEwxNCwxIiBpZD0iUGF0aC0xMCIvPjxwYXRoIGQ9Ik0xMSw0IEMxMSw1LjY1Njg1NDI1IDEyLjM0MzE0NTgsNyAxNCw3IEMxNS42NTY4NTQyLDcgMTcsNS42NTY4NTQyNSAxNyw0IEMxNywyLjM0MzE0NTc1IDE1LjY1Njg1NDIsMSAxNCwxIiBpZD0iT3ZhbC03Ii8+PC9nPjxnIGlkPSJHcm91cC00IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwgNC4wMDAwMDApIj48cGF0aCBkPSJNMjEsMTAgQzIzLjc2MTQyMzcsMTAgMjYsNy43NjE0MjM3NSAyNiw1IEMyNiwyLjIzODU3NjI1IDIzLjc2MTQyMzcsMCAyMSwwIEMyMC43MDM2OTQxLDAgMjAuNDEzNDA4MiwwLjAyNTc3NDI2MzUgMjAuMTMxMjYxOCwwLjA3NTIwMzExMSIgaWQ9Ik92YWwtOCIvPjxwYXRoIGQ9Ik0wLDEwIEwyMSwxMCIgaWQ9IlBhdGgtMTEiLz48L2c+PC9nPjwvZz48L3N2Zz4=" />
+                </div>
+                <div class="col">{{cityWeather['wind']['speed'] || 'NA'}} <span aria-label="windUnit">{{selectedUnit['wind']}}</span></div>
+            </div>
+            <div class="row align-items-center" title="Humidity">
+                <div class="col text-center">
+                    <img class="weather-img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgZGF0YS1uYW1lPSJMYXllciAxIiBpZD0iTGF5ZXJfMSIgdmlld0JveD0iMCAwIDY0IDY0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojMGJhZWZmO308L3N0eWxlPjwvZGVmcz48dGl0bGUvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTQ5LDM4YTE3LjUsMTcuNSwwLDAsMS0zNSwwQzE0LDIyLjcsMjguMjIsOC40OCwzMS41LDguNDhTNDksMjIuNyw0OSwzOFoiLz48L3N2Zz4=" />
+                </div>
+                <div class="col">{{cityWeather['main']['humidity'] || 'NA'}} <span aria-label="humidityUnit">%</span></div>
+            </div>
+            <div class="row align-items-center" title="Clouds">
+                <div class="col text-center">
+                    <img class="weather-img" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9Imljb25lIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48dGl0bGUvPjxwYXRoIGQ9Ik0zNjkuMTQsMjU2LjE0YTEwNS4xLDEwNS4xLDAsMCwwLTcuMzQtMjMuMzMsNjQuNCw2NC40LDAsMCwwLTEyLjY2LDMuMzMsMTA1LjY0LDEwNS42NCwwLDAsMC0xOS45LTQ0LjQ2QTEwNiwxMDYsMCwwLDAsMTU5LDI3NmMwLDIuNzIuMTEsNS40MS4zMSw4LjA4YTUwLDUwLDAsMCwwLTU4LjIzLDcxLjgzQTQ5Ljc4LDQ5Ljc4LDAsMCwwLDEyNSwzNjJIMzcyYTY1LDY1LDAsMCwwLDU0Ljg1LTk5Ljg1LDY1LDY1LDAsMCwwLTU3LjcxLTZaIiBmaWxsPSIjYjZjNGNmIi8+PHBhdGggZD0iTTE0Ni41LDIxNi44MWMtLjA3LjE5LS4xNS4zNy0uMjIuNTZzLS4xNS4zNi0uMjIuNTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAyMDA1YyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIwIi8+PHBhdGggZD0iTTQzNi44NywzMDAuNDFjMS44Ni0zMy4wNy0yMi45MS02My4xNi01NS43Mi02Ny43NmE2NS4zOSw2NS4zOSwwLDAsMC0zMiwzLjVjLTYuNDUtMzQuMDgtMzAtNjIuOTEtNjEuMzItNzcuNDdDMjQ0LDEzNywxODcsMTU0LDE1OC44NSwxOTQuMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAyMDA1YyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIHN0cm9rZS13aWR0aD0iMjAiLz48cGF0aCBkPSJNNDE2LjY1LDM0NC4yNGE2NC42Nyw2NC42NywwLDAsMCwxMy42NC0xOC42MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDIwMDVjIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgc3Ryb2tlLXdpZHRoPSIyMCIvPjxwYXRoIGQ9Ik0xMzkuODMsMjQyLjdhMTA3LjcxLDEwNy43MSwwLDAsMC0uNTMsMjEuMzlBNTAuNDgsNTAuNDgsMCwwLDAsODAsMjkwLjIyLDQ4LjMyLDQ4LjMyLDAsMCwwLDgwLDMzNGMzLDUsNiwxMSwxMSwxNWE4My40Miw4My40MiwwLDAsMCwxMiw4LDEyMC45LDEyMC45LDAsMCwwLDE4LDVxMTI5LDEuNSwyNTgsMGM1LDAsMTEtMywxNS45Mi00LjE2IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMjAwNWMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2Utd2lkdGg9IjIwIi8+PC9zdmc+" />
+                </div>
+                <div class="col">{{cityWeather['clouds']['all'] || 'NA'}} <span aria-label="cloudsUnit">%</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #noDataTemplate>
+    <ng-container *ngIf="errorObject; else loading">
+      <div class="col-12 text-center">
+        <div class="alert text-danger">
+          <h4>Weather data not found</h4>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="col-12 text-center">
+        <h4>Loading...</h4>
+      </div>
+    </ng-template>
+</ng-template>

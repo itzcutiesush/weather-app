@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-sm-3 mt-3">
+            <div class="filter-panel p-3">
+                <h5>Filter</h5>
+                <div class="form-group">
+                    <input type="text" #searchBox
+                        class="form-control form-control-sm" 
+                        id="searchBox" (keyup)="searchCountry(searchBox.value)" 
+                        placeholder="Type to search...">
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-9 mt-3">
+            <div class="row data-grid p-3 m-0">
+                <div class="col-12">
+                    <div class="text-muted font-italic mb-3">Click a country to view weather of its capital</div>
+                </div>
+                <div class="col-6 col-sm-3" *ngFor="let country of countryList$ | async">
+                    <a [routerLink]="['/weather', country['capital']]">{{country['name']}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
