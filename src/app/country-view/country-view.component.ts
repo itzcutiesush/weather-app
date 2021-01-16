@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, startWith } from 'rxjs/operators';
+import { Observable, Subject, throwError } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, startWith, catchError } from 'rxjs/operators';
 import { AppService } from '../app.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class CountryViewComponent implements OnInit {
   selectedSort: Object = this.sortArray[0];
   countryList$: Observable<any>;
   searchTerm = new Subject<string>();
+  errorObject : any;
 
   ngOnInit(): void {
     this.countryList$ = this.searchTerm.pipe(
@@ -23,6 +24,10 @@ export class CountryViewComponent implements OnInit {
       startWith(''),
       distinctUntilChanged(),
       switchMap((term: string) => this.appService.getCountryList(term)),
+      catchError(err => {
+        this.errorObject = err;
+        return throwError(err);
+      })
     );
   }
 

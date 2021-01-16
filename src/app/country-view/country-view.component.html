@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row">
+    <div class="row" *ngIf="countryList$ | async; else noDataTemplate; let dataList">
         <div class="col-12 col-sm-3 mt-3">
             <div class="filter-panel p-3">
                 <h5>Filter</h5>
@@ -16,10 +16,24 @@
                 <div class="col-12">
                     <div class="text-muted font-italic mb-3">Click a country to view weather of its capital</div>
                 </div>
-                <div class="col-6 col-sm-3" *ngFor="let country of countryList$ | async">
+                <div class="col-6 col-sm-3" *ngFor="let country of dataList">
                     <a [routerLink]="['/weather', country['capital']]">{{country['name']}}</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<ng-template #noDataTemplate>
+    <ng-container *ngIf="errorObject; else loading">
+      <div class="col-12 text-center">
+        <div class="alert text-danger">
+          <h4>No country found</h4>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="col-12 text-center">
+        <h4>Loading...</h4>
+      </div>
+    </ng-template>
+</ng-template>
