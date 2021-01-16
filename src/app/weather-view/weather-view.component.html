@@ -16,7 +16,8 @@
         </div>
         <div class="weather-card col-12 col-sm-6 col-md-4 offset-sm-3 offset-md-4 mt-3 shadow-sm p-3 mb-5 rounded" *ngIf="weatherData$ | async; else noDataTemplate; let cityWeather">
             <div class="row align-items-center ml-1">
-                <h5 class="text-secondary">{{cityWeather['name'] || 'NA'}}</h5>
+                <div class="d-inline">City - &nbsp;</div>
+                <h5 class="text-secondary d-inline font-italic mb-0">{{cityWeather['name'] || 'NA'}}</h5>
             </div>
             <div class="row align-items-center" title="Temperature">
                 <div class="col text-center">
